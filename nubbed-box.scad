@@ -8,10 +8,10 @@ include <MCAD/boxes.scad>
 // screwing them close.
 
 // total width of the box
-outer_width = 80;
+outer_width = 60;
 
 // total length of the box
-outer_length = 120;
+outer_length = 90;
 
 // total height of the box
 outer_height = 30;
