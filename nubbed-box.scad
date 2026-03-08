@@ -11,10 +11,10 @@ include <MCAD/boxes.scad>
 outer_width = 60;
 
 // total length of the box
-outer_length = 90;
+outer_length = 180;
 
 // total height of the box
-outer_height = 30;
+outer_height = 110;
 
 // height of the lid part
 lid_height = 5;
@@ -32,9 +32,22 @@ outer_radius = 2;
 inner_radius = 1;
 
 // radius of the nubs
-dot_radius = 0.8;
+dot_radius = 0;
+
+// slit height for latching open. Set to 0 for no slits
+slit_height = 0;
+
+// slit width for latching open.
+slit_width = 6;
 
 $fn = 40;
+
+module nubBoxSlit() {
+	if (slit_height > 0) {
+    	translate([-1, 0, outer_height - lid_height - slit_height])
+        	roundedCube([wall_thickness + 2, slit_width, slit_height + 1], inner_radius, false, false);
+	}
+}
 
 module myBoxBottom()
 {
@@ -66,7 +79,17 @@ module myBoxBottom()
 			outer_height - lid_height - lid_inset_height * 0.5
 		])
 		    sphere(dot_radius * 1.1);
+        translate([0, outer_length * 0.75 - slit_width * 1.5, 0])
+            nubBoxSlit();
+        translate([0, outer_length * 0.25 + slit_width * 0.5, 0])
+            nubBoxSlit();
+        translate([outer_width - wall_thickness, outer_length * 0.75 - slit_width * 1.5, 0])
+            nubBoxSlit();
+        translate([outer_width - wall_thickness, outer_length * 0.25 + slit_width * 0.5, 0])
+            nubBoxSlit();
 	}
+
+
 }
 
 module myBoxLid()
@@ -120,6 +143,5 @@ module myBoxLid()
 	    sphere(dot_radius);
 }
 
-myBoxBottom();
-translate([ -outer_width - 10, 0, 0 ])
-myBoxLid();
+ myBoxBottom();
+translate([ -outer_width - 10, 0, 0 ]) myBoxLid();
